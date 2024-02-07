@@ -1,11 +1,15 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
 public class MainFrame extends JFrame 
 {
     //Määritellään textFieldit
-    final private Font mainFont = new Font("Segoe print", Font.BOLD, 18);
+    final private Font mainFont = new Font("Cascadia Code", Font.BOLD, 18);
     JTextField ykNumField, kaNumField, koNumField, neNumField, viNumField, kuNumField, seNumField, kahNumField, yhNumField,
     ykKyNumField, ykYkNumField, ykKaNumField, ykKoNumField, ykNeNumField, ykViNumField, ykKuNumField, ykSeNumField, ykKahNumField, ykYhNumField,
     kaKyNumField, kaYkNumField, kaKaNumField, kaKoNumField, kaNeNumField, kaViNumField, kaKuNumField, kaSeNumField, kaKahNumField, kaYhNumField,
@@ -16,9 +20,11 @@ public class MainFrame extends JFrame
     seKyNumField, seYkNumField, seKaNumField, seKoNumField, seNeNumField, seViNumField, seKuNumField, seSeNumField, seKahNumField, seYhNumField,
     kahKyNumField, kahYkNumField;
 
+    JLabel lbWelcome;
     public void initialize() {
-        JLabel lbFirst = new JLabel("First Label");
-        lbFirst.setFont(mainFont);
+        //************Form Paneeli ************/
+        //JLabel lbFirst = new JLabel("First Label");
+        //lbFirst.setFont(mainFont);
 
         ykNumField = new JTextField(); kaNumField = new JTextField(); koNumField = new JTextField(); neNumField = new JTextField(); viNumField = new JTextField();
         kuNumField = new JTextField(); seNumField = new JTextField(); kahNumField = new JTextField(); yhNumField = new JTextField();
@@ -103,15 +109,64 @@ public class MainFrame extends JFrame
         
         formPanel.add(kahKyNumField);formPanel.add(kahYkNumField);
 
+        // Tarkistetaan että kirjoitettu merkki on numero
+        kahYkNumField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+                char input = e.getKeyChar();
+                if ((input < '0' || input > '9') && input != '\b') {
+                    e.consume();
+                    System.out.println("Ei sallittu merkki!");
+                }
 
+            }
+        });
+
+        //************Nappien Paneeli ************/
+        JButton OkBtn = new JButton("OK");
+        OkBtn.setFont(mainFont);
+        OkBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+            }
+            
+        });
+        JButton clearBtn = new JButton("Tyhjennä");
+        clearBtn.setFont(mainFont);
+        clearBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+            }
+            
+        });
+        JPanel nappiPaneeli = new JPanel();
+        nappiPaneeli.setLayout(new GridLayout(1, 2, 5, 5));
+        nappiPaneeli.add(OkBtn);
+        nappiPaneeli.add(clearBtn);
+
+        //Luodaan paneeli
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(255, 255, 255));
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+        mainPanel.add(nappiPaneeli, BorderLayout.SOUTH);
+
+        add(mainPanel);
+
 
         setTitle("Sudokun Ratkaisija");
         setSize(500, 600);
         setMinimumSize(new Dimension(300, 400));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+    public static void main(String[] args) {
+        MainFrame myFrame = new MainFrame();
+        myFrame.initialize();
     }
 }
