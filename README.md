@@ -1,0 +1,2 @@
+# SudokunRatkaisija
+ Ratkaisee annetun sudokun
